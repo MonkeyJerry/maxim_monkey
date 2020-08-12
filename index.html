@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Test Report</title>
+    <meta name="author" content="AppetizerIO">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script type="text/javascript" src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<div class="container">
+    <h2 class="text-center">测试报告</h2>
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#act_coverage" aria-controls="act_coverage" role="tab"
+                                                  data-toggle="tab" id="rate">覆盖的Activity</a></li>
+        <li role="presentation"><a href="#log_error" aria-controls="log_error" role="tab" data-toggle="tab">大智慧log_error_dzh Crash报告</a>
+        </li>
+        <li role="presentation"><a href="#crash" aria-controls="crash" role="tab" data-toggle="tab">Maxim自动遍历Crash报告</a>
+        </li>
+        <li role="presentation"><a href="#perf" aria-controls="perf" role="tab" data-toggle="tab">App性能问题</a></li>
+        <li role="presentation"><a href="#http" aria-controls="http" role="tab" data-toggle="tab">HTTP请求响应</a></li>
+    </ul>
+    <div class="tab-content">
+        <br/>
+        <div role="tabpanel" class="tab-pane active" id="act_coverage">
+            <table cellpadding="0" cellspacing="0" border="0" class="dataTable table table-striped"
+                   id="act-coverage-tab">
+                <thead>
+                <tr>
+                    <th>Activity no.</th>
+                    <th>Covered activity</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="crash">
+            <table cellpadding="0" cellspacing="0" border="0" class="dataTable table table-striped" id="crash-tab">
+                <thead>
+                <tr>
+                    <th>Exception name</th>
+                    <th>Crash message</th>
+                    <th>Available RAM</th>
+                    <th>Available Ext. Storage</th>
+                    <th>Stacktrace</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="log_error">
+            <table cellpadding="0" cellspacing="0" border="0" class="dataTable table table-striped" id="log-error-tab">
+                <thead>
+                <tr>
+                    <th>Exception no.</th>
+                    <th>Stacktrace</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="perf">
+            <table cellpadding="0" cellspacing="0" border="0" class="dataTable table table-striped" id="perf-tab">
+                <thead>
+                <tr>
+                    <th>Problem</th>
+                    <th>Duration</th>
+                    <th>Method</th>
+                    <th>Stacktrace</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="http">
+            <table cellpadding="0" cellspacing="0" border="0" class="dataTable table table-striped" id="http-tab">
+                <thead>
+                <tr>
+                    <th>Problem</th>
+                    <th>Status Code</th>
+                    <th>HTTP Method</th>
+                    <th>URL</th>
+                    <th>Latency (ms)</th>
+                    <th>Transmit Time (ms)</th>
+                    <th>Transmit Speed (B/s)</th>
+                    <th>Response Type</th>
+                    <th>Response Length (Byte)</th>
+                    <th>API Used</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<footer class='footer'>
+    <div class='container-fluid'>
+        <hr/>
+        <p class='pull-right'>此报告由开源项目<a href="https://www.appetizer.io/">Appetizer</a>结合<a href="https://github.com/zhangzhao4444/Maxim">Maxim</a>自动遍历定制生成<br/>如有疑问请联系@陈明亮803169</p>
+    </div>
+</footer>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="js/dataTables.bootstrap.js"></script>
+<!-- <script type="text/javascript" src="js/json3.js"></script> -->
+<!-- <script type="text/javascript" src="data.json"></script> -->
+
+<script type="text/javascript">
+		Date.prototype.format = function (fmt) {
+			var o = {
+			"M+": this.getMonth() + 1, //月份
+			"d+": this.getDate(), //日
+			"h+": this.getHours(), //小时
+			"m+": this.getMinutes(), //分
+			"s+": this.getSeconds(), //秒
+			"q+": Math.floor((this.getMonth() + 3) / 3), //季度
+			"S": this.getMilliseconds() //毫秒
+		};
+		if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+		for (var k in o)
+			if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+		return fmt;
+		}
+      $(document).ready(function() {
+	  var day = new Date().format("yyyyMMdd");
+	  // console.log(day)
+	  $.getJSON("data/data.json", function (data){
+	  try {
+		act_all = data.statistics.act_coverage.all;
+		act_covered = data.statistics.act_coverage.covered;
+		var act_covered_data =  []
+		for (var i = 0; i < act_covered.length; i++) 
+		{
+			act_covered_data.push(act_covered[i])
+		};
+		//console.log(act_covered_data)
+		$("#rate").text("覆盖的Activity(覆盖率"+Math.round(act_covered.length/act_all.length*10000)/100+"%"+")");
+		$('#act-coverage-tab').DataTable({
+		pagingType: "full_numbers",
+		data: act_covered,
+		columns: [
+			 {
+				orderable : false,
+				className: "text-center",
+				render: function (data, type, row, meta) {
+					return meta.row + 1 + meta.settings._iDisplayStart;
+					//return meta.row + 1 ; //每页序号重新排序
+				}
+			},{data}
+		],
+		select: 'single',
+		responsive: true,
+		});}
+		catch(e) {
+		console.log(e)
+		}
+
+		error = data.log_error;
+		//console.log(error)
+		//console.log(typeof(error))
+		//console.log(log_error_data)
+		$('#log-error-tab').DataTable({
+          pagingType: "full_numbers",
+		  data: error,
+		  columns: [
+				 {
+					orderable : false,
+					className: "text-center",
+					render: function (data, type, row, meta) {
+						return meta.row + 1 + meta.settings._iDisplayStart;
+						//return meta.row + 1 ; //每页序号重新排序
+					}
+				},{data}
+		  ],
+          select: 'single',
+          responsive: true,
+        });
+
+		dataset = data.allItems;
+        var crash_data = [], perf_data = [], http_data = [];
+        for (var i = 0; i < dataset.length; ++i) {
+          var d = dataset[i];
+          // normalize stacktrace
+          var stacktrace = "", rawtrace = [];
+          if (d.hasOwnProperty('highlight')) rawtrace = d.highlight;
+          if (d.hasOwnProperty('all_threads')) rawtrace = d.all_threads['main'];
+          for (var j = 0; j < rawtrace.length; ++j) {
+            stacktrace += rawtrace[j].method + '(' + rawtrace[j].filename + ':' + rawtrace[j].line + ')\n';
+          }
+          d.stacktrace = stacktrace;
+		  
+          if (d.category === 'http') {
+            d.transmit_time = d.transmit_time || 0;
+            d.transmit_speed = d.transmit_speed || 0;
+			//console.log(d)
+			if(!d.hasOwnProperty("problem")){
+				d["problem"] = "A_OK"
+			}
+            http_data.push(d);
+          }
+		  //console.log(http_data)
+          if (d.category === 'crash') {
+            crash_data.push(d);
+          }
+          if (d.category === 'perf') {
+            d.elapsed_time = d.elapsed_time || d.duration;
+            if (d.hasOwnProperty('clazz')) {
+              d.stacktrace = d.clazz;
+            }
+            if (!d.hasOwnProperty('method')) d.method = "";
+			if(!d.hasOwnProperty("problem")){
+				d["problem"] = "A_OK"
+			};
+			if(!d.hasOwnProperty("'elapsed_time")){
+				d["elapsed_time"] = 0
+			};
+            perf_data.push(d);
+          }
+        }
+		
+
+		
+        $('#crash-tab').DataTable({
+          pagingType: "full_numbers",
+          data: crash_data,
+          columns: [
+            { data: 'exception_name' },
+            { data: 'exception_message' },
+            { data: 'available_ram_size' },
+            { data: 'available_external_size' },
+            { data: 'stacktrace' },
+          ],
+          select: 'single',
+		  "order": [[0, 'des']],
+          responsive: true,
+        });
+        $('#http-tab').DataTable({
+          pagingType: "full_numbers",
+          data: http_data,
+          columns: [
+			{ data: 'problem' },
+			{ data: 'response.status_code' },
+            { data: 'method' },
+            { data: 'url' },
+            { data: 'elapsed_time' },
+            { data: 'transmit_time' },
+            { data: 'transmit_speed' },
+            { data: 'response.content_type.MIME' },
+            { data: 'response.content_length' },
+            { data: 'api_type' },
+          ],
+          select: 'single',
+		  "order": [[0, 'des']],
+          responsive: true,
+        });
+	
+        $('#perf-tab').DataTable({
+          pagingType: "full_numbers",
+          data: perf_data,
+          columns: [
+            { data: 'problem' },
+            { data: 'elapsed_time' },
+            { data: 'method' },
+            { data: 'stacktrace' },
+          ],
+          select: 'single',
+		  "order": [[0, 'des']],
+          responsive: true,
+        });
+        
+      })
+	  });
+
+</script>
+</body>
+</html>

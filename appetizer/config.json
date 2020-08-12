@@ -1,0 +1,12 @@
+{
+	"anxiety": 5,
+	"check_analysis": "https://api.appetizer.io/v2/insight/analyze",
+	"check_instrumentation": "https://api.appetizer.io/v2/insight/process",
+	"check_token": "https://api.appetizer.io/v2/oauth/check_token",
+	"file_server": "",
+	"get_token": "https://api.appetizer.io/v2/oauth/access_token",
+	"request_analysis": "https://api.appetizer.io/v2/insight/analyze/qiniu",
+	"request_instrumentation": "https://api.appetizer.io/v2/insight/process/qiniu",
+	"upload_server": "http://upload.qiniu.com",
+	"signup": "https://api.appetizer.io/user/signup"
+}

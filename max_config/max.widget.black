@@ -1,0 +1,18 @@
+[
+	{
+		"activity": "com.android.dazhihui.ui.screen.stock.PersonalScreenActivity",
+		"xpath": "//*[@resource-id='com.android.dazhihui:id/switch_account_ll']"
+	},
+	{
+		"activity": "com.android.dazhihui.ui.screen.stock.PersonalScreenActivity",
+		"xpath": "//*[@text='切换账号']"
+	},
+	{
+		"activity": "com.android.dazhihui.ui.screen.stock.PersonalScreenActivity",
+		"xpath": "//*[@resource-id='com.android.dazhihui:id/login_out_ll']"
+	},
+	{
+		"activity": "com.android.dazhihui.ui.screen.stock.PersonalScreenActivity",
+		"xpath": "//*[@text='退出登录']"
+	}
+]
