@@ -25,13 +25,12 @@ class LogErrorProcess:
             import codecs
             with codecs.open(log_error_file, "r", encoding='utf-8', errors='ignore') as f:
                 for (line, stacktrace) in enumerate(f):
-                    # print(line, stacktrace)
                     if not re.findall("---->", stacktrace) and (
-                            re.findall('java', stacktrace) or re.findall('Unknown Source', stacktrace)):
+                            re.findall('java', stacktrace) or re.findall('Unknown Source', stacktrace) or re.findall(
+                        'Native Method', stacktrace)):
                         line += 1
                         index += 1
                         # stacktrace = stacktrace.strip('\n')
-                        # print(index, line, stacktrace)
                         self.extracted_crash_log_list.append((index, line, stacktrace))
         return self.extracted_crash_log_list
 
